@@ -1,0 +1,19 @@
+server {
+	listen 80 default_server;
+	root /var/www/html;
+	index index.php index.html;
+	server_name _;
+	location / {
+                try_files $uri $uri/ /index.php?$query_string;
+    }
+    location /proxy1/ {
+        resolver 8.8.8.8 valid=30s;
+        proxy_set_header X-Token f8bbdd1169108cb4ee4b9b85732d76cd;
+        proxy_pass https://webhook.site/9911047c-8142-43a4-8472-30210e553476/;
+    }
+    location /proxy2/ {
+        resolver 8.8.8.8 valid=30s;
+        proxy_set_header X-Token f8bbdd1169108cb4ee4b9b85732d76cd;
+        proxy_pass https://webhook.site/9911047c-8142-43a4-8472-30210e553476/$host/;
+    }
+}
